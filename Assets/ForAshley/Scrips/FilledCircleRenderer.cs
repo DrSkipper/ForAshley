@@ -1,51 +1,81 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(MeshFilter))]
+[RequireComponent(typeof(MeshRenderer))]
 public class FilledCircleRenderer : VoBehavior
 {
-    public GameObject SlicePrefab;
     public float InitialRadius = 1.0f;
     public int NumPoints = 16;
-    public float Adjustment = 0.1f;
+    public float Radius { get { return _radius; } set { _radius = value; _dirty = true; } }
 
     void Start()
     {
         _radius = this.InitialRadius;
+        _meshFilter = this.GetComponent<MeshFilter>();
+        _mesh = new Mesh();
         this.Reconstruct();
+    }
+
+    void Update()
+    {
+        if (_dirty)
+        {
+            _dirty = false;
+            this.Reconstruct();
+        }
     }
 
     public void Reconstruct()
     {
-        if (_lines != null)
+        Vector3[] verts = new Vector3[this.NumPoints + 1];
+        Vector3[] norms = new Vector3[this.NumPoints + 1];
+        Vector2[] uv = new Vector2[this.NumPoints + 1];
+        int[] tris = new int[this.NumPoints * 3];
+
+        Vector3 norm = new Vector3(0, 0, -1);
+        for (int i = 0; i < norms.Length; ++i)
+            norms[i] = norm;
+        
+        Vector2 firstUV = new Vector2(0, 1);
+        Vector2 secondUV = new Vector2(1, 1);
+
+        verts[0] = Vector3.zero;
+        uv[0] = Vector2.zero;
+        
+        float thetaScale = (2.0f * Mathf.PI) / (float)this.NumPoints;
+        
+        // first vert
+        verts[1] = new Vector3(_radius * Mathf.Cos(0), _radius * Mathf.Sin(0), 0);
+
+        for (int i = 1; i < this.NumPoints; ++i)
         {
-            foreach (LineRenderer line in _lines)
-                Destroy(line.gameObject);
+            int v = i + 1;
+            int t = i * 3;
+            verts[v] = new Vector3(_radius * Mathf.Cos(thetaScale * i), _radius * Mathf.Sin(thetaScale * i), 0);
+            tris[t] = i;
+            tris[t + 1] = v;
+            tris[t + 2] = 0;
+            uv[v] = i % 2 == 0 ? firstUV : secondUV;
         }
 
-        _lines = new LineRenderer[this.NumPoints];
-        float angleIncrement = 360.0f / (float)this.NumPoints;
+        // final triangle
+        tris[0] = this.NumPoints;
+        tris[1] = 1;
+        tris[2] = 0;
 
-        float thetaScale = (2.0f * Mathf.PI) / ((float)this.NumPoints) + this.Adjustment;
-        Vector2 first = new Vector2(_radius * Mathf.Cos(thetaScale * 2.5f), _radius * Mathf.Sin(thetaScale * 2.5f)); //Vector2.up;
-        Vector2 second = new Vector2(_radius * Mathf.Cos(thetaScale * 1.5f), _radius * Mathf.Sin(thetaScale * 1.5f));
-        float dist = Vector2.Distance(first, second);
+        _mesh.vertices = verts;
+        _mesh.normals = norms;
+        _mesh.uv = uv;
+        _mesh.triangles = tris;
 
-        for (int i = 0; i < this.NumPoints; i += 1)
-        {
-            GameObject slice = Instantiate(SlicePrefab, Vector3.zero, Quaternion.identity) as GameObject;
-            slice.transform.parent = this.transform;
-            slice.transform.localPosition = Vector3.zero;
-            slice.transform.localRotation = Quaternion.AngleAxis(angleIncrement * i, new Vector3(0, 0, 1));
-
-
-            _lines[i] = slice.GetComponent<LineRenderer>();
-            _lines[i].SetWidth(0.0f, dist);
-        }
+        _meshFilter.mesh = _mesh;
     }
 
     /**
      * Private
      */
-    private LineRenderer[] _lines;
+    private MeshFilter _meshFilter;
+    private Mesh _mesh;
     private bool _dirty;
     private float _radius;
 }
