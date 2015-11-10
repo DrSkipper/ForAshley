@@ -25,7 +25,7 @@ public class WingAlphaBehavior : SceneProgressElement
         this.Frequency = _initialFrequency + this.FrequencyIncrease * progress;
 
         Color color = this.spriteRenderer.color;
-        color.a = this.MinAlpha + ((this.MaxAlpha - this.MinAlpha) * Mathf.Sin(progress * this.Frequency));
+        color.a = this.MinAlpha + ((this.MaxAlpha - this.MinAlpha) * Mathf.Sin(progress * this.Frequency * Mathf.PI / 2.0f));
         this.spriteRenderer.color = color;
     }
 
