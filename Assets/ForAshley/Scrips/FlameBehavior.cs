@@ -43,9 +43,9 @@ public class FlameBehavior : SceneProgressElement
         }
 	}
 
-    public override void UpdateSceneProgress(float progress)
+    protected override void UpdateProgress(float progress)
     {
-        base.UpdateSceneProgress(progress);
+        base.UpdateProgress(progress);
 
         this.AvgAlpha = _targetAlpha + this.AlphaIncrease * progress;
         this.FlickerDuration = _targetDuration - this.DurationDecrease * progress;

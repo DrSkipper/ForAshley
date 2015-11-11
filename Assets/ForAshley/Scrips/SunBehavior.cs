@@ -21,9 +21,9 @@ public class SunBehavior : SceneProgressElement
         _initialPosition = this.transform.localPosition;
     }
 
-    public override void UpdateSceneProgress(float progress)
+    protected override void UpdateProgress(float progress)
     {
-        base.UpdateSceneProgress(progress);
+        base.UpdateProgress(progress);
 
         float centerScale = _initialCenterScale + this.CenterScaleIncrease * progress;
         float midLayerScale = _initialMidLayerScale + this.MidLayerScaleIncrease * progress;

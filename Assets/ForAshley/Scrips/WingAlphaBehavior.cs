@@ -17,9 +17,9 @@ public class WingAlphaBehavior : SceneProgressElement
         _initialMaxAlpha = this.MaxAlpha;
     }
 
-    public override void UpdateSceneProgress(float progress)
+    protected override void UpdateProgress(float progress)
     {
-        base.UpdateSceneProgress(progress);
+        base.UpdateProgress(progress);
 
         this.MaxAlpha = _initialMaxAlpha + this.MaxAlphaIncrease * progress;
         this.Frequency = _initialFrequency + this.FrequencyIncrease * progress;
