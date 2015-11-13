@@ -35,7 +35,7 @@ public class LeafBehavior : SceneProgressElement
 
         _angle = this.MaxRotation * progress;
         this.Jitter = _initialJitter + this.JitterIncrease * progress;
-        this.JitterCooldown = _initialJitterCooldown + this.JitterCooldownDecrease * progress;
+        this.JitterCooldown = _initialJitterCooldown - this.JitterCooldownDecrease * progress;
         this.transform.localRotation = Quaternion.AngleAxis(_angle + _jitterAngle, new Vector3(0, 0, -1));
     }
 

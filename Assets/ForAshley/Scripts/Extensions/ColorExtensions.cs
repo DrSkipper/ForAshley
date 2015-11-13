@@ -19,6 +19,21 @@ public static class ColorExtensions
         return rgb;
     }
 
+    public static Color ColorFromHsv(HSV hsv)
+    {
+        return ColorFromHsv(hsv.h, hsv.s, hsv.v);
+    }
+
+    public static Color ColorFromHsv(float h, float s, float v)
+    {
+        Color color = new Color();
+        RGB rgb = HsvToRgb(h, s, v);
+        color.r = rgb.r;
+        color.g = rgb.g;
+        color.b = rgb.b;
+        return color;
+    }
+
     public static HSV RgbToHsv(RGB rgb)
     {
         return RgbToHsv(rgb.r, rgb.g, rgb.b);
