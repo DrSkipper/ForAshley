@@ -1,5 +1,7 @@
 
-Either use the .msi to install the program on your computer or just run the .exe directly.
+Either use "For Ashley - Install.exe" to install the program on your computer or just run "For Ashley.exe" directly.
+
+I recommend you start the program sometime when you're alone, turn up the volume to an easily audible level, and use headphones or at least good speakers.
 
 All interaction consists of holding and releasing mouse or space (whichever you prefer).
 
