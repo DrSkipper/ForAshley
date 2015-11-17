@@ -1,0 +1,6 @@
+
+Either use the .msi to install the program on your computer or just run the .exe directly.
+
+All interaction consists of holding and releasing mouse or space (whichever you prefer).
+
+Hope you enjoy, Happy Birthday :)
