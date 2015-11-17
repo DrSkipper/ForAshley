@@ -11,11 +11,16 @@ public class SceneProgressor : VoBehavior
     public List<SceneProgressCallback> SceneProgressCallbacks = new List<SceneProgressCallback>();
     public float HoldTimeAtEndForLock = 1.0f;
 
+    void Start()
+    {
+        Cursor.visible = false;
+    }
+
     void Update()
     {
         if (!_interactionLocked)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0) || Input.GetMouseButton(1))
             {
                 if (this.CurrentProgress < 1.0f)
                 {
